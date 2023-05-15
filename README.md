@@ -19,9 +19,20 @@
     <td>From_dadata.py</td>
     <td>Получение данных из сервиса DaData</td>
   </tr>
+  <tr>
+    <td>From_OData.py</td>
+    <td>Получение данных web-сервиса 1с посредством интерфейса OData</td>
+  </tr>
+  <tr>
+    <td>From_OData_adding.py</td>
+    <td>Обогощение имеющихся данных данными из web-сервиса 1с посредством интерфейса OData</td>
+  </tr>
+  <tr>
+    <td>From_R7.py</td>
+    <td>Получение данных из табличного документа Р7</td>
+  </tr>
+  <tr>
+    <td>From_RSS_and_HTML.py</td>
+    <td>Получение данных из web-рассылок RSS или HTML-страниц, содержищих таблицы</td>
+  </tr>
 </table>
-
-From_OData.py
-From_OData_adding.py
-From_R7.py
-From_RSS_and_HTML.py
