@@ -47,7 +47,7 @@ with pd.ExcelWriter(tmp_path) as writer:
             frame.to_excel(writer, sheet_name=f'Лист{i+1}')
 
 '''
-# экспорт во многостраничный документ эксель
+# экспорт во многостраничный документ с распределением по листам
 with pd.ExcelWriter(tmp_path) as writer:
     for i in list_list:
         frame = input_frame[input_frame['Заказчик'] == i]
