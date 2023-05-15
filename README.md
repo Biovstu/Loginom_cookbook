@@ -155,7 +155,7 @@
 
 ## 6. SandBox
 
-<table>
+<table width="100%">
   <tr>
     <th>Имя файла</th>
     <th>Назначение</th>
