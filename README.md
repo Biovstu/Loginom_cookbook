@@ -37,7 +37,7 @@
   </tr>
 </table>
 
-## 2. Load
+## 2. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Load">Load</a>
 
 <table>
   <tr>
@@ -58,7 +58,7 @@
   </tr>
 </table>
 
-## 3. Logging
+## 3. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Logging">Logging</a>
 
 <table>
   <tr>
@@ -79,7 +79,7 @@
   </tr>
 </table>
 
-## 4. Transform
+## 4. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Transform">Transform</a>
 
 <table>
   <tr>
@@ -124,7 +124,7 @@
   </tr>
 </table>
 
-## 5. Others
+## 5. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Others">Others</a>
 
 <table>
   <tr>
