@@ -46,6 +46,14 @@ with pd.ExcelWriter(tmp_path) as writer:
         else:
             frame.to_excel(writer, sheet_name=f'Лист{i+1}')
 
+'''
+# экспорт во многостраничный документ эксель
+with pd.ExcelWriter(tmp_path) as writer:
+    for i in list_list:
+        frame = input_frame[input_frame['Заказчик'] == i]
+        frame.to_excel(writer, sheet_name=i)
+'''
+
 # отправляем файл
 with open(tmp_path,'rb') as f:
     file = {'upload_file': f}
