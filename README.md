@@ -8,3 +8,20 @@
 5. Others. Содержит блоки, не попадающие в другие группы
 6. SandBox. Песочница служит для хранения различных черновиков
 
+## 1. Extract
+
+<table>
+  <tr>
+    <th>Имя файла</th>
+    <th>Назначение</th>
+  </tr>
+  <tr>
+    <td>From_dadata.py</td>
+    <td>Получение данных из сервиса DaData</td>
+  </tr>
+</table>
+
+From_OData.py
+From_OData_adding.py
+From_R7.py
+From_RSS_and_HTML.py
