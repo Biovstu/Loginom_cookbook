@@ -34,4 +34,3 @@ except Exception as ex:
 
 # Отправляем словарь в таблицу пандас
 df = pd.DataFrame(dic)
-df.sample(5)
