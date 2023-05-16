@@ -20,6 +20,10 @@
     <td>Получение данных из сервиса DaData</td>
   </tr>
   <tr>
+    <td>From_MySQL.py</td>
+    <td>Получение данных из базы MySQL</td>
+  </tr>
+  <tr>
     <td>From_OData.py</td>
     <td>Получение данных web-сервиса 1с посредством интерфейса OData</td>
   </tr>
