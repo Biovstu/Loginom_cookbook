@@ -47,6 +47,6 @@ print('Файл записан')
 # Шлем радостную весть
 API_TOKEN = '5332535441:AAHmyrfr4G0zsUsZpA5YuK77rl838dlIxGA'
 CHAT_ID = '966221933'
-ERROR_TEXT = 'Регистра Цены номенклатуры выгружен!'
+ERROR_TEXT = 'Регистр Цены номенклатуры постащиков выгружен!'
 data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
 print(data)
