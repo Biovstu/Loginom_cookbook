@@ -1,0 +1,1 @@
+python C:\Users\konstantin_kutovoy\Documents\BioVstu\Loginom_cookbook\SandBox\CenaNomenklaturyPostavshikov.py
