@@ -9,7 +9,7 @@
 6. SandBox. Песочница служит для хранения различных черновиков
 
 ## 1. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Extract">Extract</a>
-
+From_MSSQL.py
 <table>
   <tr>
     <th>Имя файла</th>
@@ -18,6 +18,10 @@
   <tr>
     <td>From_dadata.py</td>
     <td>Получение данных из сервиса DaData</td>
+  </tr>
+  <tr>
+    <td>From_MSSQL.py</td>
+    <td>Получение данных из базы MS SQL</td>
   </tr>
   <tr>
     <td>From_MySQL.py</td>
