@@ -5,6 +5,13 @@ import requests
 from requests.auth import HTTPBasicAuth
 import time
 
+API_TOKEN = '6175205144:AAH81U1fI8g_O6q5_Ogzq7TYeF7AQzYu1Jc'
+CHAT_ID = '-1001552021322'
+
+ERROR_TEXT = 'Начинаю обновление Регистр Цены номенклатуры постащиков'
+data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
+print(data)
+
 t = time.strftime('%X', time.localtime(time.time()))
 print(f'{t} - Начнем!')
 # формируем аутентификацию
@@ -45,8 +52,7 @@ col.to_csv(file_path+'CenaNomenklaturyPostavschikov.csv', encoding='cp1251')
 print('Файл записан')
 
 # Шлем радостную весть
-API_TOKEN = '5332535441:AAHmyrfr4G0zsUsZpA5YuK77rl838dlIxGA'
-CHAT_ID = '966221933'
+
 ERROR_TEXT = 'Регистр Цены номенклатуры постащиков выгружен!'
 data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
 print(data)
