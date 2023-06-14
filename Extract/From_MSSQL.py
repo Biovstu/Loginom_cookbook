@@ -19,7 +19,7 @@ connection_url = URL.create(
     query={
         "driver": "ODBC Driver 18 for SQL Server",
         "TrustServerCertificate": "yes",
-        "authentication": "ActiveDirectoryIntegrated",
+        "authentication": "ActiveDirectoryIntegrated", # удалить строку, если запуск с сервера выдает ошибку аутентификации
     },
 )
 
@@ -55,5 +55,5 @@ dbo._Reference74X1 as t5 \
 on t4._Fld2562RRef = t5._IDRRef'
 
 with engine.connect() as conn:
-    df2 = pd.read_sql_query(query, conn)
+    df2 = pd.read_sql_query(query, conn) # для работы функции обязательно нужна версия Pandas 2.0
 df2
