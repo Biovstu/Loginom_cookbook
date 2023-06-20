@@ -15,13 +15,20 @@ buff_df = pd.read_json(json.dumps(buff_resp.json()['value']))
 
 from dadata import Dadata
 
+import time
+
 token = ''
 secret = ''
 
 with Dadata(token, secret) as dadata:
     for i,adres in enumerate(buff_df['Представление']):
-#         print(f'{i} - {adres}')
-        js = dadata.clean(name='address', source=adres)
+        if i % 1000 == 0:
+            print(f'{i} - {adres}')
+        try:
+            js = dadata.clean(name='address', source=adres)
+        except (ReadTimeout, ConnectTimeout):
+            time.sleep(30)
+            js = dadata.clean(name='address', source=adres)
         try:
             df = pd.DataFrame(js, index=[0])
         except ValueError:
