@@ -26,7 +26,13 @@ with Dadata(token, secret) as dadata:
             print(f'{i} - {adres}')
         try:
             js = dadata.clean(name='address', source=adres)
-        except (ReadTimeout, ConnectTimeout):
+        except RemoteProtocolError:
+            time.sleep(30)
+            js = dadata.clean(name='address', source=adres)
+        except ReadTimeout:
+            time.sleep(30)
+            js = dadata.clean(name='address', source=adres)
+        except ConnectTimeout:
             time.sleep(30)
             js = dadata.clean(name='address', source=adres)
         try:
