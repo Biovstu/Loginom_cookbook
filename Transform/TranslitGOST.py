@@ -68,21 +68,37 @@ trans = \
     'Э': 'EH',
     'Ю': 'JU',
     'Я': 'JA',
+    '-': '',
     ' ': ''
 }
-# print(trans)
 
-a = ['Отношение прогнозного к текущему']
-b = []
-for words in a:
+# Импортируем библиотеки
+import numpy as np
+import pandas as pd
+import openpyxl
+
+file_path = ''
+sheet = ''
+field = ''
+
+# Читаем таблицу из файла
+source = pd.read_excel(file_path, sheet_name=sheet)
+
+# Задаем функцю по преобразованию текстовой строки в транслит
+def translit(word):
     new_word = ''
-    for n,i in enumerate(words):
+    for n,i in enumerate(word):
         if i in trans.keys():
-            if words[n-1] == ' ' or n == 0:
+            if word[n-1] in [' ','-'] or n == 0:
                 new_word += trans[i].upper()
             else:
                 new_word += trans[i]
         else:
             new_word += i
-    b.append(new_word)
-print(b)
+    return new_word
+
+# Добавляем столбец с транслитерируемыми строками
+source[field + '_Translit'] = source[field].apply(translit)
+
+# Возвращаем обратно в тот же файл и лист
+source.to_excel(file_path, sheet_name=sheet)
