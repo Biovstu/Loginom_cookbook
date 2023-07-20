@@ -9,7 +9,7 @@
 6. SandBox. Песочница служит для хранения различных черновиков
 
 ## 1. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Extract">Extract</a>
-From_MSSQL.py
+
 <table>
   <tr>
     <th>Имя файла</th>
@@ -109,6 +109,10 @@ From_MSSQL.py
   <tr>
     <td>IDRRef_to_Ref_Key.py</td>
     <td>Преобразование GUID'а объекта 1С из формата IDRRef в формат Ref_Key используемый OData</td>
+  </tr>
+  <tr>
+    <td>Opening_bad_json_from_field.py</td>
+    <td>Раскрытие содержащей ошибки json-строки из ячейки</td>
   </tr>
   <tr>
     <td>Opening_fields.py</td>
