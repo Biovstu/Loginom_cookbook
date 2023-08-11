@@ -8,7 +8,7 @@ import time
 t = time.strftime('%X', time.localtime(time.time()))
 print(f'{t} - Начнем!')
 # формируем аутентификацию
-basic = HTTPBasicAuth('odata_erp'.encode('utf-8'), 'oeLrXMT1Eryp9YM9P8st'.encode('utf-8'))
+basic = HTTPBasicAuth(''.encode('utf-8'), ''.encode('utf-8'))
 # делаем запрос OData
 buff_resp = requests.get(f"http://dcr-iis03/erp_data/odata/standard.odata/InformationRegister_ЦеныНоменклатурыПоставщиков", headers=dict(Accept='application/json;odata=nometadata'), auth=basic)
 t = time.strftime('%X', time.localtime(time.time()))
@@ -45,8 +45,8 @@ col.to_csv(file_path+'CenaNomenklaturyPostavschikov.csv', encoding='cp1251')
 print('Файл записан')
 
 # Шлем радостную весть
-API_TOKEN = '5332535441:AAHmyrfr4G0zsUsZpA5YuK77rl838dlIxGA'
-CHAT_ID = '966221933'
+API_TOKEN = ''
+CHAT_ID = ''
 ERROR_TEXT = 'Регистра Цены номенклатуры выгружен!'
 data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
 print(data)
