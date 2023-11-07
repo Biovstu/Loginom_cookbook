@@ -20,7 +20,10 @@ connection_url = URL.create(
     query={},
 )
 
-# запрос таблицы
 engine = sqla.create_engine(connection_url)
+# запрос таблицы
 with engine.connect() as conn:
     df = pd.read_sql_table(TABLENAME, conn)
+# перезаписывание таблицы
+with engine.connect() as conn:
+    df.to_sql(TABLENAME, conn, if_exists='replace', index=False)
