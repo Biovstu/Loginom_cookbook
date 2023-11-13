@@ -12,6 +12,8 @@ import warnings
 import time
 import sqlalchemy as sqla
 from sqlalchemy.engine import URL
+import requests
+import urllib.parse
 
 
 # Импортируем библиотеки сглаживания
@@ -91,6 +93,12 @@ def return_forcast(incoming_df, steps=1, steps_back=None):
 
 t = time.strftime('%X', time.localtime(time.time()))
 print(f'{t} - Расчет начат')
+
+API_TOKEN = '6175205144:AAH81U1fI8g_O6q5_Ogzq7TYeF7AQzYu1Jc'
+CHAT_ID = '-1001552021322'
+ERROR_TEXT = '#M5K Расчет прогноза начат'
+ERROR_TEXT = urllib.parse.quote(ERROR_TEXT)
+data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
 
 time_start = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
@@ -251,19 +259,7 @@ print(f'{t} - Прогноз выгружен')
 
 # In[16]:
 
-
-import requests
-import urllib.parse
-
-API_TOKEN = '6175205144:AAH81U1fI8g_O6q5_Ogzq7TYeF7AQzYu1Jc'
-CHAT_ID = '-1001552021322'
-ERROR_TEXT = '#M5K Данные по прогнозу рассчитаны!'
+ERROR_TEXT = '#M5K Прогноз рассчитан!'
 ERROR_TEXT = urllib.parse.quote(ERROR_TEXT)
 data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
-
-
-# In[ ]:
-
-
-
 
