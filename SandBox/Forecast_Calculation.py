@@ -16,9 +16,19 @@ import requests
 import urllib.parse
 
 
+# In[2]:
+
+
+API_TOKEN = '6175205144:AAH81U1fI8g_O6q5_Ogzq7TYeF7AQzYu1Jc'
+CHAT_ID = '-1001552021322'
+TEXT = '#M5K Начат расчет прогноза'
+TEXT = urllib.parse.quote(TEXT)
+data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={TEXT}')
+
+
 # Импортируем библиотеки сглаживания
 
-# In[2]:
+# In[3]:
 
 
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing
@@ -27,7 +37,7 @@ from statsmodels.tsa.holtwinters import Holt
 
 # Импортируем библиотеки прогнозирования
 
-# In[3]:
+# In[4]:
 
 
 from statsmodels.tsa.ar_model import AutoReg
@@ -37,7 +47,7 @@ from statsmodels.tsa.arima.model import ARIMA
 
 # Составляем функцию прогноза
 
-# In[4]:
+# In[5]:
 
 
 def return_forcast(incoming_df, steps=1, steps_back=None):    
@@ -88,19 +98,13 @@ def return_forcast(incoming_df, steps=1, steps_back=None):
 
 # Подготовка исходных данных
 
-# In[5]:
+# In[6]:
 
 
-t = time.strftime('%X', time.localtime(time.time()))
+t = time.strftime('%x %X', time.localtime(time.time()))
 print(f'{t} - Расчет начат')
 
-API_TOKEN = '6175205144:AAH81U1fI8g_O6q5_Ogzq7TYeF7AQzYu1Jc'
-CHAT_ID = '-1001552021322'
-ERROR_TEXT = '#M5K Расчет прогноза начат'
-ERROR_TEXT = urllib.parse.quote(ERROR_TEXT)
-data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
-
-time_start = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+# time_start = time.strftime('%Y-%m-%d', time.localtime(time.time()))
 
 SERVER = '10.101.10.171'
 LOGIN = 'dwh_full_access'
@@ -109,6 +113,7 @@ DBNAME = 'dwh'
 TABLE_SALES = 'SYS_FORECASTING_SALES'
 TABLE_PARAMS = 'SYS_FORECASTING_SMOOTH_PARAMS'
 PORT = '5432'
+TABLENAME = 'SYS_FORECASTING_CUMUL'
 
 connection_url = URL.create(
     "postgresql",
@@ -125,37 +130,45 @@ engine = sqla.create_engine(connection_url)
 with engine.connect() as conn:
     source = pd.read_sql(TABLE_SALES, conn)
     smooth_params = pd.read_sql(TABLE_PARAMS, conn)
-print(f'{t} - Данные загружены')
-
-
-# In[6]:
-
-
-# source
+t = time.strftime('%x %X', time.localtime(time.time()))
+print(f'{t} - Данные получены')
 
 
 # In[7]:
 
 
-# smooth_params
+# source
 
 
 # In[8]:
 
 
-products = source['Product'].unique()
+# smooth_params
+
+
+# In[9]:
+
+
+products = source['Product'].unique() #[2001:] установить, если потребуется восстановление после сбоя
 # pd.DataFrame(products)
 # Добавляем к параметрам сглаживания недостающие продукты с параметрами по умолчанию 0,1
 smooth_params = smooth_params.merge(pd.DataFrame(products), how='right', left_on='Product', right_on=0).drop(columns=[0])
 smooth_params['smooth_level'].fillna(value=0.3, inplace=True)
 smooth_params['smooth_trend'].fillna(value=0.1, inplace=True)
 # smooth_params
+# smooth_params.loc[smooth_params['Product'] == 'Формалин 10%, л', 'smooth_level'].reset_index(drop=True)[0]
 
 
-# In[14]:
+# In[10]:
 
 
-t = time.strftime('%X', time.localtime(time.time()))
+# products
+
+
+# In[ ]:
+
+
+t = time.strftime('%x %X', time.localtime(time.time()))
 print(f'{t} - старт прогноза')
 full_forecast = pd.DataFrame({})
 with warnings.catch_warnings():
@@ -163,8 +176,8 @@ with warnings.catch_warnings():
     for num, product in enumerate(products): #['01033563-a80b-11e7-80e8-005056954729']
     # Выбираем исходные данные
         sales = source[source['Product'] == product]['QTY'].reset_index(drop=True)
-        smoothing_level = max(smooth_params.loc[smooth_params['Product'] == product, 'smooth_level'])
-        smoothing_trend = max(smooth_params.loc[smooth_params['Product'] == product, 'smooth_trend'])
+        smoothing_level = smooth_params.loc[smooth_params['Product'] == product, 'smooth_level'].reset_index(drop=True)[0]
+        smoothing_trend = smooth_params.loc[smooth_params['Product'] == product, 'smooth_trend'].reset_index(drop=True)[0]
     # Записываем базовые данные
         base_df = pd.DataFrame(sales)
         base_df.rename(columns={'QTY':'Base-0-0'}, inplace=True)
@@ -183,7 +196,7 @@ with warnings.catch_warnings():
         base_df[base_df < 0] = 0
     # Создаем контрольный прогноз за последние 3 периода
         forcasted_df = return_forcast(base_df, steps=3, steps_back=3)
-        forcasted_df_part = forcasted_df[-1:]
+        forcasted_df_part = forcasted_df[-3:]
         forcasted_df_part = forcasted_df_part.drop(columns=[f'SES-{smoothing_level}-0',f'HES-{smoothing_level}-{smoothing_trend}'])
     # Считаем веса
         if forcasted_df_part.sum()['Base-0-0'] != 0:
@@ -221,45 +234,26 @@ with warnings.catch_warnings():
             full_forecast = temp_forecast
         else:
             full_forecast = pd.concat([full_forecast,temp_forecast], axis=0, ignore_index=True)
-        t = time.strftime('%X', time.localtime(time.time()))
-        if (num + 1) % 100 == 0:
-            print(f'{t} - {product} Рассчитан {num + 1} из {len(products)}')
-full_forecast['Period'] = pd.Timestamp(time_start)
-t = time.strftime('%X', time.localtime(time.time()))
-print(f'{t} - суммы рассчитаны')
-
-
-# In[15]:
-
-
-SERVER = '10.101.10.171'
-LOGIN = 'dwh_full_access'
-PASS = 'K4cUSPbSEdUhOwoi'
-DBNAME = 'dwh'
-TABLENAME = 'SYS_FORECASTING_CUMUL'
-PORT = '5432'
-
-connection_url = URL.create(
-    "postgresql",
-    username=LOGIN,
-    password=PASS,
-    host=SERVER,
-    port=PORT,
-    database=DBNAME,
-    query={},
-)
-
-# загрузка в базу без индексов с перезаписыванием
-engine = sqla.create_engine(connection_url)
+        if (num + 1) % 1000 == 0: #Каждую 1000 продуктов
+            t = time.strftime('%x %X', time.localtime(time.time()))
+            print(f'{t} - Рассчитан {num + 1} из {len(products)}')
+            full_forecast['Period'] = pd.Timestamp(t) #добавляем дату и время
+            with engine.connect() as conn:
+                full_forecast.to_sql(TABLENAME, conn, if_exists='append', index=False) #добавляем в базу
+            full_forecast.drop(full_forecast.index, inplace=True) #чистим записи в прогнозном
+t = time.strftime('%x %X', time.localtime(time.time()))
+print(f'{t} - Рассчитан {num + 1} из {len(products)}')
+full_forecast['Period'] = pd.Timestamp(t)
 with engine.connect() as conn:
     full_forecast.to_sql(TABLENAME, conn, if_exists='append', index=False)
-t = time.strftime('%X', time.localtime(time.time()))
-print(f'{t} - Прогноз выгружен')
+t = time.strftime('%x %X', time.localtime(time.time()))
+print(f'{t} - Прогноз закончен')
 
 
-# In[16]:
+# In[ ]:
 
-ERROR_TEXT = '#M5K Прогноз рассчитан!'
-ERROR_TEXT = urllib.parse.quote(ERROR_TEXT)
-data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={ERROR_TEXT}')
+
+TEXT = '#M5K Данные по прогнозу рассчитаны!'
+TEXT = urllib.parse.quote(TEXT)
+data = requests.get(f'https://api.telegram.org/bot{API_TOKEN}/sendMessage?chat_id={CHAT_ID}&text={TEXT}')
 
