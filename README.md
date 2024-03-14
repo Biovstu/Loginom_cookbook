@@ -51,6 +51,10 @@
     <td>From_RSS_and_HTML.py</td>
     <td>Получение данных из web-рассылок RSS или HTML-страниц, содержищих таблицы</td>
   </tr>
+  <tr>
+    <td>From_YCStorage.py</td>
+    <td>Получение данных хранилища Яндекс Облако</td>
+  </tr>
 </table>
 
 ## 2. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Load">Load</a>
@@ -75,10 +79,6 @@
   <tr>
     <td>To_xlsx.py</td>
     <td>Создание многостраничного табличного документа XLSX</td>
-  </tr>
-  <tr>
-    <td>From_YCStorage.py</td>
-    <td>Получение данных хранилища Яндекс Облако</td>
   </tr>
 </table>
 
