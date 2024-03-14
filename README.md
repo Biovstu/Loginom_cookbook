@@ -76,6 +76,10 @@
     <td>To_xlsx.py</td>
     <td>Создание многостраничного табличного документа XLSX</td>
   </tr>
+  <tr>
+    <td>From_YCStorage.py</td>
+    <td>Получение данных хранилища Яндекс Облако</td>
+  </tr>
 </table>
 
 ## 3. <a href="https://github.com/Biovstu/Loginom_cookbook/tree/e9c85ac5a5dcb1d1ab5407a0ade0b0be4ffd743b/Logging">Logging</a>
