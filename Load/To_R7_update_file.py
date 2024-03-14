@@ -15,6 +15,7 @@ url_path = ''
 id_file = ''
 file_name = ''
 list_list = ''
+rename = ''
 
 #поэлементное чтение входных таблиц в список из DataFrame
 input_frames = [pd.DataFrame({})]
@@ -65,6 +66,14 @@ with open(tmp_path,'rb') as f:
 
 # удаляем файл
 os.remove(tmp_path)
+
+# переименовываем файл, если надо
+if rename:
+    data = {'title': file_name}
+    headers = {'Authorization': token}
+    endpoint = f'/api/2.0/files/file/{id_file}'
+    url = f'{url_path}{endpoint}'
+    r = requests.put(url, data=data, headers = headers)
 
 # Записываем результат и реквизиты файла
 output_frame = pd.read_json(r.text).reset_index()
