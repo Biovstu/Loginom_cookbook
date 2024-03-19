@@ -18,9 +18,11 @@ for page in page_iterator:
     for item in page['Contents']:
         founded_kyes.append(item['Key'])
 
-result_string = ''
-for key in founded_kyes:
-    obj = client.get_object(Bucket = BUCKET, Key=key)
-    result_string += obj['Body'].read().decode('utf-8')
-
-output_frame = pd.read_json(result_string, convert_dates=False, lines=True)
+for i, key in enumerate(founded_kyes):
+    obj = client.get_object(Bucket = 'bv-bucket-logs', Key=key)
+    tmp_frame = pd.read_json(obj['Body'].read().decode('utf-8'), convert_dates=False, lines=True)
+    tmp_frame['key'] = key
+    if i == 0:
+        output_frame = tmp_frame
+    else:
+        output_frame = pd.concat([output_frame, tmp_frame], axis=0, ignore_index=True)
